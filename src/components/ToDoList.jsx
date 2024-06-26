@@ -35,6 +35,7 @@ function ToDoList() {
     }
   }, []);
 
+  // Add todo to store
   const handleAddToDo = (task) => {
     if (task.trim().length === 0) {
       alert("Please enter a task");
@@ -50,6 +51,26 @@ function ToDoList() {
     setShowModal(false);
   };
 
+  // onEnter task add
+  const handleKeyPress = (e,task) => {
+    console.log(e.key);
+    if(e.key === 'Enter'){
+      if (task.trim().length === 0) {
+        alert("Please enter a task");
+      } else {
+        dispatch(
+          addTodo({
+            task: task,
+            id: Date.now(),
+          })
+        );
+      }
+      setNewTask("");
+      setShowModal(false);
+    }
+  }
+
+  // update todo
   const handleUpdateTodoList = (id, task) => {
     if (task.trim().length === 0) {
       alert("Please enter a task");
@@ -59,19 +80,20 @@ function ToDoList() {
     setShowModal(false);
   };
 
+  // delete todo
   const handleDeleteTodo = (id) => {
     const updatedTodoList = todoList.filter((todo) => todo.id != id);
     dispatch(setTodoList(updatedTodoList));
     localStorage.setItem("todolist", updatedTodoList);
   };
 
+  // sort todo [completed, All, Not completed]
   const handleSort = (sortCriteria) => {
     dispatch(sortTodo(sortCriteria));
   };
 
   const sortTodoList = todoList.filter((todo) => {
     if (sortCriteria == "All") {
-      console.log(todo);
       return true;
     }
     if (sortCriteria === "Completed" && todo.completed) return true;
@@ -79,6 +101,7 @@ function ToDoList() {
     return false;
   });
 
+  // complete todo
   const handleToggleCompleted = (id) => {
     dispatch(toggleCompleted(id));
   };
@@ -92,6 +115,7 @@ function ToDoList() {
               className="border p-2 rounded-md outline-none mb-8"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
+              onKeyDown={(e) => handleKeyPress(e, newTask) }
               type="text"
               placeholder={
                 currentTodo ? "Update your task here" : "Enter your task here"

@@ -80,7 +80,3 @@ Make sure you have the following installed on your system:
 
 If you would like to contribute to this project, please fork the repository and create a pull request with your changes.
 
-### License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
